@@ -86,3 +86,46 @@ function useVechile(vechile: Vechile) {
 
 useVechile(v1);
 useVechile(v2);
+
+interface Bird {
+  type: 'bird';
+  flyingSpeed: number;
+}
+
+interface Horse {
+  type: 'horse';
+  runningSpeed: number;
+}
+
+type Animal = Bird | Horse;
+
+function moveAnimal(animal: Animal) {
+  let speed;
+  switch (animal.type) {
+    case 'bird':
+      speed = animal.flyingSpeed;
+      break;
+    case 'horse':
+      speed = animal.runningSpeed;
+      break;
+    default:
+      break;
+  }
+  console.log('Moving with speed: ' + speed);
+}
+
+moveAnimal({ type: 'bird', flyingSpeed: 100 });
+moveAnimal({ type: 'horse', runningSpeed: 80 });
+
+// const userInputElement = <HTMLInputElement> document.querySelector('#uesr-input')!;
+const userInputElement = document.querySelector(
+  '#uesr-input'
+)! as HTMLInputElement;
+
+// if (userInputElement) {
+//   (userInputElement as HTMLInputElement).value = 'Hello their';
+// }
+
+userInputElement.value = 'Hello their';
+
+interface ErrorContainer {}
