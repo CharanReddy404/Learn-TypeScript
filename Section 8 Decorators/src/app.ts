@@ -1,3 +1,5 @@
+//set-up in mac
+
 // function Logger(logString: string) {
 //   console.log('Logger Factory');
 //   return function (constructor: Function) {
