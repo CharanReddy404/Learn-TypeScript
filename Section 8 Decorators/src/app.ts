@@ -1,39 +1,40 @@
 //set-up in mac
 
-// function Logger(logString: string) {
-//   console.log('Logger Factory');
-//   return function (constructor: Function) {
-//     console.log(logString);
-//     console.log(constructor);
-//   };
-// }
+function Logger(logString: string) {
+  console.log('Logger Factory');
+  return function (constructor: Function) {
+    console.log(logString);
+    console.log(constructor);
+  };
+}
 
-// function WithTemplate(template: string, hookId: string) {
-//   return function (constructor: any) {
-//     console.log('Template Factory');
-//     const hookEl = document.querySelector(`#${hookId}`);
-//     const p = new constructor();
-//     if (hookEl) {
-//       hookEl.innerHTML = template;
-//       hookEl.querySelector('h1')!.textContent = p.name;
-//     }
-//   };
-// }
+function WithTemplate(template: string, hookId: string) {
+  return function (constructor: any) {
+    console.log('Template Factory');
+    const hookEl = document.querySelector(`#${hookId}`);
+    const p = new constructor();
+    if (hookEl) {
+      hookEl.innerHTML = template;
+      hookEl.querySelector('h1')!.textContent = p.name;
+    }
+  };
+}
 
-// @Logger('LOGGING - PERSON')
-// @WithTemplate('<h1>Hello World!</h1>', 'app')
-// class Person {
-//   name = 'Charan';
+@Logger('LOGGING - PERSON')
+@WithTemplate('<h1>Hello World!</h1>', 'app')
+class Person {
+  name = 'Charan';
 
-//   constructor() {
-//     console.log('Creating person object...');
-//   }
-// }
+  constructor() {
+    console.log('Creating person object...');
+  }
+}
 
-// const pers = new Person();
+const pers = new Person();
 
-// console.log(pers);
+console.log(pers);
 
+console.log('-----------------------------------------------------');
 
 function Log(target:any,  propertyName: string | Symbol){
   console.log('Property decorator!');
@@ -87,3 +88,33 @@ class Product{
   }
 
 }
+
+const p1 = new Product('Book',19);
+const p2  = new Product('Book 2',26);
+
+function Autobind(_: any, _2: string, descriptor: PropertyDescriptor ){
+  const originalMethod = descriptor.value;
+  const adjDescriptor: PropertyDescriptor = {
+    configurable:true,
+    enumerable:false,
+    get(){
+      const boundFn = originalMethod.bind(this);
+      return boundFn;
+    }
+  };
+  return adjDescriptor;
+}
+
+class Printer{
+  message = "This Works ";
+
+  @Autobind
+  showMessage(){
+    console.log(this.message);
+  }
+}
+
+const p = new Printer();
+
+const button = document.querySelector('button')!;
+button.addEventListener('click', p.showMessage)
